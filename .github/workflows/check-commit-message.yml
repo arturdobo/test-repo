@@ -13,7 +13,7 @@ jobs:
         run: |
           commit_message=$(git log --format=%B -n 1 ${{ github.event.pull_request.head.sha }})
           commit_regex='^[A-Z]+-\d+ .+'
-          if ! [[ ${commit_message} =~ ${commit_regex} ]]; then
+          if ! grep -iqE "$commit_regex" "$commit_message"; then
             echo "Your commit message must follow the convention: 'JIRA-1234 commit message', where JIRA is your Jira issue prefix."
             exit 1
           fi
